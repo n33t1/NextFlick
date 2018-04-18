@@ -14,3 +14,4 @@ export const QUERY_MOVIES = 'QUERY_MOVIES';
 export const QUERY_SINGLE_FIELD = 'QUERY_SINGLE_FIELD';
 export const SET_QUERY_RES = 'SET_QUERY_RES';
 export const SET_MOVIE_LIST = 'SET_MOVIE_LIST';
+export const CREATE_MOVIE = 'CREATE_MOVIE';

@@ -6,6 +6,32 @@ import { ADD_MOVIE, DELETE_MOVIE, SELECT_MOVIE, DESELECT_MOVIE, INIT_MOVIE, SET_
 //     directors: ['director1','director2','director3','director4','director5']
 // };
 
+export const createMovie = payload => {
+    // return {
+    //     type: ADD_MOVIE,
+    //     key: key
+    // };
+    return dispatch => {
+        fetch("http://127.0.0.1:5000/createMovie", {
+            method: "POST",
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Something went wrong, please try again!");
+        })
+        .then(res => res.json())
+        .then(parsedRes => {
+            console.log("createMovie: " + JSON.stringify(parsedRes));
+            dispatch(setMovieList(parsedRes))
+        });
+    };
+};
+
 
 export const addMovie = key => {
     // return {
@@ -13,7 +39,7 @@ export const addMovie = key => {
     //     key: key
     // };
     return dispatch => {
-        fetch("http://127.0.0.1:5000/addMovie", {
+        fetch("http://127.0.0.1:5000/addToMovieList", {
             method: "POST",
             headers: {
                 Accept: 'application/json',
@@ -90,7 +116,7 @@ export const deleteMovie = key => {
     //     key: key
     // };
     return dispatch => {
-        fetch("http://127.0.0.1:5000/deleteMovie", {
+        fetch("http://127.0.0.1:5000/deleteFromMovieList", {
             method: "POST",
             headers: {
                 Accept: 'application/json',

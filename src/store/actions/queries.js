@@ -8,7 +8,7 @@ export const setQueryRes = searchRes => {
 };
 
 export const querySingleField = payload => {
-    // console.log("queryMovies: " + JSON.stringify(payload));
+    console.log("queryMovies: " + JSON.stringify(payload));
     return dispatch => {
         fetch("http://127.0.0.1:5000/queryMovies", {
             method: "POST",

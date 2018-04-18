@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 
 import QuizView from '../../components/QuizView/QuizView';
 
-import GenreQuizScreen from './GenreQuiz';
-
 class DirectorQuiz extends Component {
     directorSelectedHandler = movieName => {
         this.props.navigator.push({
-            screen: "movie-db.GenreQuizScreen",
-            title: 'GenreQuizScreen',
+            screen: "movie-db.YearQuizScreen",
+            title: 'YearQuizScreen',
             animated: false,
             backButtonHidden: true
         });
@@ -24,6 +22,7 @@ class DirectorQuiz extends Component {
                     onTagsSelected={this.directorSelectedHandler}
                     tags={this.props.tags}
                     tagType="directors"
+                    prompt="Select directors you like: "
                 />
             </View>
         );

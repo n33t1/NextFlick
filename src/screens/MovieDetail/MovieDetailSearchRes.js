@@ -15,6 +15,7 @@ class MovieDetailSearchRes extends Component {
   movieAddHandler = () => {
     let temp = {}
     temp['id'] = this.props.selectedMovie.key;
+    // {'id': 1}
     this.props.onAddMovie(temp);
     this.props.navigator.pop();
   }
@@ -24,9 +25,11 @@ class MovieDetailSearchRes extends Component {
       <View style={styles.container}>
         <View>
           <Text style={styles.movieName}>{this.props.selectedMovie.attributes.movieName}</Text>
-          <Text>{this.props.selectedMovie.attributes.director}</Text>
-          <View>{this.props.selectedMovie.attributes.actors.map(actor => <Text>{actor}</Text>)}</View>
-          <View>{this.props.selectedMovie.attributes.genre.map(genre => <Text>{genre}</Text>)}</View>
+          <Text style={styles.movieText}>{this.props.selectedMovie.attributes.director}</Text>
+          <Text style={styles.movieText}>{this.props.selectedMovie.attributes.year}</Text>
+          <Text style={styles.movieText}>{this.props.selectedMovie.attributes.language}</Text>
+          <View>{this.props.selectedMovie.attributes.actors.map(actor => <Text style={styles.movieText}>{actor}</Text>)}</View>
+          <View>{this.props.selectedMovie.attributes.genre.map(genre => <Text style={styles.movieText}>{genre}</Text>)}</View>
         </View>
         <View>
           <TouchableOpacity onPress={this.movieAddHandler}>
@@ -49,8 +52,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 28
   },
+  movieText: {
+    textAlign: "center",
+    fontSize: 18
+  },
   deleteButton: {
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop:"5%"
   }
 });
 

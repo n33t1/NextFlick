@@ -37,17 +37,14 @@ class QuizView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.quizPrompt}>Payment:</Text>
+        <Text style={styles.quizPrompt}>{this.props.prompt}</Text>
         <View style={styles.tags}>
           <TagSelect
             data={this.state.data}
             max={5}
             ref={(tag) => {this.tag = tag}}
             onMaxError={() => {alert.alert('Ops', 'Max reached')}}
-            itemStyle={styles.item}
             itemLabelStyle={styles.label}
-            itemStyleSelected={styles.itemSelected}
-            itemLabelStyleSelected={styles.labelSelected}
           />
         </View>
         <Button
@@ -69,6 +66,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   quizPrompt: {
+    paddingTop: "20%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     fontSize: 30
   },
   movieButton: {
@@ -80,20 +80,8 @@ const styles = StyleSheet.create({
     paddingLeft: "5%",
     paddingRight: "5%"
   },
-  item: {
-    borderWidth: 1,
-    borderColor: '#333',    
-    backgroundColor: '#FFF',
-  },
   label: {
-    color: '#333',
-    fontSize: 20
-  },
-  itemSelected: {
-    backgroundColor: '#333',
-  },
-  labelSelected: {
-    color: '#FFF',
+    fontSize: 18
   }
 });
 

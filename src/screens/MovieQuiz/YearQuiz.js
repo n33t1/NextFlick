@@ -4,26 +4,25 @@ import { connect } from 'react-redux';
 
 import QuizView from '../../components/QuizView/QuizView';
 
-import OnLoadMoviesScreen from './OnLoadMovies';
-
-class GenreQuiz extends Component {
-    genreSelectedHandler = movieName => {
+class YearQuiz extends Component {
+    languageSelectedHandler = movieName => {
         this.props.navigator.push({
-            screen: "movie-db.OnLoadMoviesScreen",
-            title: 'OnLoadMoviesScreen',
+            screen: "movie-db.LanguageQuizScreen",
+            title: 'LanguageQuizScreen',
             animated: false,
             backButtonHidden: true
         });
     }
 
+
     render () {
         return (
             <View>
                 <QuizView 
-                    onTagsSelected={this.genreSelectedHandler}
+                    onTagsSelected={this.languageSelectedHandler}
                     tags={this.props.tags}
-                    tagType="genres"
-                    prompt="Select genre: "
+                    tagType="years"
+                    prompt="Select a time frame: "
                 />
             </View>
         );
@@ -32,8 +31,8 @@ class GenreQuiz extends Component {
 
 const mapStateToProps = state => {
     return {
-        tags: state.tags.tags.genres
+        tags: state.tags.tags.years
     };
 };
 
-export default connect(mapStateToProps)(GenreQuiz);
+export default connect(mapStateToProps)(YearQuiz);

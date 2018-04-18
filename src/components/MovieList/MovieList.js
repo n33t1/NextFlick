@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList, Text, View } from "react-native";
+import { StyleSheet, FlatList, Text, View, Button } from "react-native";
 
 import ListItem from "../ListItem/ListItem";
 
@@ -13,6 +13,17 @@ import ListItem from "../ListItem/ListItem";
 // );
 
 const movieList = props => {
+  if (props.movies === undefined || props.movies.length == 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.text}>No result!</Text>
+        <Button 
+          title="Add new movie?"
+          onPress={props.onAddNewMovie}
+          style={styles.button} />
+      </View>
+    )
+  }
   return (
     <FlatList
       style={styles.listContainer}
@@ -33,6 +44,18 @@ const movieList = props => {
 const styles = StyleSheet.create({
   listContainer: {
     width: "100%"
+  },
+  container: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "40%"
+  },
+  button: {
+    fontSize: 20,
+  },
+  text: {
+    fontSize: 20,
   }
 });
 

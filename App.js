@@ -9,7 +9,10 @@ import MovieDetailScreen from "./src/screens/MovieDetail/MovieDetail";
 import DirectorQuizScreen from './src/screens/MovieQuiz/DirectorQuiz';
 import ActorQuizScreen from './src/screens/MovieQuiz/ActorQuiz';
 import GenreQuizScreen from './src/screens/MovieQuiz/GenreQuiz';
+import YearQuizScreen from './src/screens/MovieQuiz/YearQuiz';
+import LanguageQuizScreen from './src/screens/MovieQuiz/LanguageQuiz';
 import OnLoadMoviesScreen from './src/screens/MovieQuiz/OnLoadMovies';
+import AddMoviesScreen from './src/screens/AddMovie/AddMovie';
 import MovieDetailSearchResScreen from './src/screens/MovieDetail/MovieDetailSearchRes';
 import configureStore from "./src/store/configureStore";
 
@@ -65,6 +68,20 @@ Navigation.registerComponent(
 )
 
 Navigation.registerComponent(
+  "movie-db.YearQuizScreen",
+  () => YearQuizScreen,
+  store,
+  Provider
+)
+
+Navigation.registerComponent(
+  "movie-db.LanguageQuizScreen",
+  () => LanguageQuizScreen,
+  store,
+  Provider
+)
+
+Navigation.registerComponent(
   "movie-db.GenreQuizScreen",
   () => GenreQuizScreen,
   store,
@@ -84,6 +101,13 @@ Navigation.registerComponent(
   store,
   Provider
 )
+
+Navigation.registerComponent(
+  "movie-db.AddMoviesScreen",
+  () => AddMoviesScreen,
+  store,
+  Provider
+);
 
 // Start a App
 Navigation.startSingleScreenApp({

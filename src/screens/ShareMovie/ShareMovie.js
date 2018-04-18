@@ -11,7 +11,16 @@ class ShareMovieScreen extends Component {
     onSearchTriggeredHandler = keyword => {
         let res = {};
         res["keyword"] = keyword;
-        this.props.onSearchMovies(keyword);
+        this.props.onSearchMovies(res);
+    }
+
+    onAddNewMovieHandler = () => {
+        this.props.navigator.push({
+            screen: "movie-db.AddMoviesScreen",
+            title: 'Add Movie',
+            animated: false,
+            backButtonHidden: true
+          });
     }
 
     itemSelectedHandler = key => {
@@ -34,6 +43,7 @@ class ShareMovieScreen extends Component {
                 <MovieList
                     movies={this.props.searchRes}
                     onItemSelected={this.itemSelectedHandler}
+                    onAddNewMovie={this.onAddNewMovieHandler}
                 />
             </View>
         );

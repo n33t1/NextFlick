@@ -41,13 +41,13 @@ class LoginForm extends Component {
     return (
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="email address or user name"
+          placeholder="user name"
           value={this.state.userName}
           onChangeText={this.userNameChangedHandler}
           style={styles.textInput}
         />
         <TextInput
-          placeholder="your password"
+          placeholder="password"
           value={this.state.password}
           onChangeText={this.passwordChangedHandler}
           style={styles.textInput}

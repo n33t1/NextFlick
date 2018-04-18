@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 
 import QuizView from '../../components/QuizView/QuizView';
 
-import DirectorQuizScreen from './DirectorQuiz';
-
 class ActorQuiz extends Component {
 
     actorSelectedHandler = movieName => {
@@ -25,6 +23,7 @@ class ActorQuiz extends Component {
                     onTagsSelected={this.actorSelectedHandler}
                     tags={this.props.tags}
                     tagType="actors"
+                    prompt="Select actors you like: "
                 />
             </View>
         );

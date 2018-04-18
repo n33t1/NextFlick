@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import MovieList from "../../components/MovieList/MovieList";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
+import AddMovieForm from '../../components/AddMovieForm/AddMovieForm';
+
 class FindMovieScreen extends Component {
   itemSelectedHandler = key => {
     const selMovie = this.props.movies.find(movie => {
@@ -19,13 +21,23 @@ class FindMovieScreen extends Component {
     });
   };
 
+  onAddNewMovieHandler = () => {
+    this.props.navigator.push({
+        screen: "movie-db.AddMoviesScreen",
+        title: 'Add Movie',
+        animated: false,
+        backButtonHidden: true
+      });
+  }
+
   render() {
     return (
       <View>
-        {/* <SearchBar /> */}
+        {/* <AddMovieForm /> */}
         <MovieList
           movies={this.props.movies}
           onItemSelected={this.itemSelectedHandler}
+          onAddNewMovie={this.onAddNewMovieHandler}
         />
       </View>
     );
