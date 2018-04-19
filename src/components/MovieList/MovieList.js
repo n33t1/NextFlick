@@ -16,9 +16,12 @@ const movieList = props => {
   if (props.movies === undefined || props.movies.length == 0) {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>No result!</Text>
         <Button 
-          title="Add new movie?"
+          title="Take the quiz"
+          onPress={props.onTakeQuiz}
+          style={styles.button} />
+        <Button 
+          title="Add new movie"
           onPress={props.onAddNewMovie}
           style={styles.button} />
       </View>
@@ -29,7 +32,7 @@ const movieList = props => {
       style={styles.listContainer}
       data={props.movies}
       renderItem={(info) => {
-        console.log("info" + JSON.stringify(info));
+        // console.log("info" + JSON.stringify(info));
         return (
           <ListItem
             movieName={info.item.attributes.movieName}
@@ -53,6 +56,7 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 20,
+    paddingBottom: "20%"
   },
   text: {
     fontSize: 20,

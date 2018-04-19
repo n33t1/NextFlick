@@ -8,6 +8,10 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import AddMovieForm from '../../components/AddMovieForm/AddMovieForm';
 
 class FindMovieScreen extends Component {
+  componentWillMount() {
+    console.log("IM CALLED");
+  }
+
   itemSelectedHandler = key => {
     const selMovie = this.props.movies.find(movie => {
       return movie.key === key;
@@ -38,6 +42,7 @@ class FindMovieScreen extends Component {
           movies={this.props.movies}
           onItemSelected={this.itemSelectedHandler}
           onAddNewMovie={this.onAddNewMovieHandler}
+          onTakeQuiz={()=>{console.log("pressed!")}}
         />
       </View>
     );

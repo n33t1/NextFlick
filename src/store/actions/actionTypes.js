@@ -17,3 +17,4 @@ export const SET_MOVIE_LIST = 'SET_MOVIE_LIST';
 export const CREATE_MOVIE = 'CREATE_MOVIE';
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const SET_USER_ID = 'SET_USER_ID';
+export const SET_GENRES = 'SET_GENRES';

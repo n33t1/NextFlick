@@ -13,9 +13,11 @@ import { deleteMovie } from "../../store/actions/index";
 
 class MovieDetail extends Component {
   movieDeletedHandler = () => {
-    let temp = {}
-    temp['id'] = this.props.selectedMovie.key;
-    this.props.onDeleteMovie(temp);
+    let payload = {}
+    payload['movieId'] = this.props.selectedMovie.key;
+    payload['userId'] = this.props.userID;
+
+    this.props.onDeleteMovie(payload);
     this.props.navigator.pop();
   }
 
@@ -65,10 +67,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+      userID: state.user.userID
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onDeleteMovie: key => dispatch(deleteMovie(key))
   };
 };
 
-export default connect(null, mapDispatchToProps)(MovieDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);

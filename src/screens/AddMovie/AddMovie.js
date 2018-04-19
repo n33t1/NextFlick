@@ -10,23 +10,18 @@ import AddMovieForm from '../../components/AddMovieForm/AddMovieForm';
 
 class FindMovieScreen extends Component {
     onAddPressedHandler = payload =>{
+        Object.assign(payload, {"userID": this.props.userID});
         this.props.onAddMovie(payload);
 
-        console.log("QuizView: " + JSON.stringify(payload));
         startMainTabs();
-        // this.props.navigator.push({
-        //     screen: "movie-db.ShareMovieScreen",
-        //     title: 'My List',
-        //     animated: false,
-        //     backButtonHidden: true
-        // });
     };
 
     render() {
         return (
         <View>
             <AddMovieForm 
-                onAddPressed={this.onAddPressedHandler}/>
+                onAddPressed={this.onAddPressedHandler}
+                myGenres={this.props.myGenres}/>
         </View>
         );
     }
@@ -34,7 +29,9 @@ class FindMovieScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    movies: state.movies.movies
+    movies: state.movies.movies,
+    userID: state.user.userID,
+    myGenres: state.movies.genres
   };
 };
 

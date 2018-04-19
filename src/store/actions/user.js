@@ -36,7 +36,7 @@ export const userLogin = (payload) => {
         .then(res => res.json())
         .then(parsedRes => {
             // we want to return user id and username here
-            console.log("loginUser: " + JSON.stringify(parsedRes));
+            console.log("loginUser: " + parsedRes.userID);
             let userID = parsedRes.userID;
             dispatch(setUserID(userID));
             let movieList = parsedRes.movieList;
@@ -53,10 +53,10 @@ export const setUserInfo = payload => {
     };
 };
 
-export const setUserID = payload => {
+export const setUserID = userID => {
     return {
         type: SET_USER_ID,
-        userID: payload.userID
+        userID: userID
     };
 };
 

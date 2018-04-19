@@ -2,7 +2,7 @@ import { SET_USER_INFO, SET_USER_ID } from "../actions/actionTypes";
 
 const initialState = {
     userName: "",
-    userId: "",
+    userID: "",
     password: ""
   };
 

@@ -6,7 +6,7 @@ import RegisterForm from '../../components/Register/Register';
 import LoginScreen from '../Login/Login';
 import ActorQuizScreen from '../MovieQuiz/ActorQuiz';
 
-import { getTags, setUserInfo } from '../../store/actions/index';
+import { getTags, setUserInfo, getGenres } from '../../store/actions/index';
 
 class RegisterScreen extends Component {
     // componentWillMount() {
@@ -23,6 +23,7 @@ class RegisterScreen extends Component {
 
     componentWillMount() {
         this.props.loadTags();
+        this.props.loadGenres();
     }
 
     loginSelectedHandler = () => {
@@ -61,6 +62,7 @@ class RegisterScreen extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         loadTags: () => dispatch(getTags()),
+        loadGenres: () => dispatch(getGenres()),
         setUserInfo: (payload) => dispatch(setUserInfo(payload))
     };
 };

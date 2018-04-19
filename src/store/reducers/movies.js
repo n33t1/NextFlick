@@ -6,7 +6,8 @@ import {
   DESELECT_MOVIE,
   SET_MOVIES,
   QUERY_MOVIES,
-  SET_MOVIE_LIST
+  SET_MOVIE_LIST,
+  SET_GENRES
 } from "../actions/actionTypes";
 
 import movieData from '../../assets/movies.json';
@@ -29,11 +30,17 @@ const initialState = {
   // movies: [{key: 'a', name: "Zodiac"}, {key: 'b', name: "TSN"}],
   movies: [],
   tags: [],
-  selectedMovie: null
+  selectedMovie: null,
+  genres: []
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_GENRES:
+      return {
+        ...state,
+        genres: action.genres
+      };
     case ADD_MOVIE:
       return {
         ...state,

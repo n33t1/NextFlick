@@ -5,9 +5,17 @@ import { connect } from 'react-redux';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import MovieList from '../../components/MovieList/MovieList';
 
-import { querySingleField } from '../../store/actions/index';
+import { getTags } from '../../store/actions/index';
 
 class ShareMovieScreen extends Component {
+    state = {
+        data: []
+    }
+
+    componentWillMount() {
+        this.props.loadTags();
+    }
+
     onSearchTriggeredHandler = keyword => {
         let res = {};
         res["keyword"] = keyword;
@@ -21,6 +29,15 @@ class ShareMovieScreen extends Component {
             animated: false,
             backButtonHidden: true
           });
+    }
+
+    onTakeQuizHandler = () => {
+        this.props.navigator.push({
+            screen: "movie-db.ActorQuizScreen",
+            title: 'ActorQuizScreen',
+            animated: false,
+            backButtonHidden: true
+        });
     }
 
     itemSelectedHandler = key => {
@@ -39,11 +56,12 @@ class ShareMovieScreen extends Component {
     render () {
         return (
             <View>
-                <SearchBar onSearchTriggered={this.onSearchTriggeredHandler}/>
+                {/* <SearchBar onSearchTriggered={this.onSearchTriggeredHandler}/> */}
                 <MovieList
-                    movies={this.props.searchRes}
+                    movies={this.state.data}
                     onItemSelected={this.itemSelectedHandler}
                     onAddNewMovie={this.onAddNewMovieHandler}
+                    onTakeQuiz={this.onTakeQuizHandler}
                 />
             </View>
         );
@@ -58,7 +76,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSearchMovies: (keyword) => dispatch(querySingleField(keyword))
+        loadTags: () => dispatch(getTags())
     };
 };
 
