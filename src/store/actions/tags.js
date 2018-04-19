@@ -45,8 +45,8 @@ export const setMovies = movies => {
     };
 };
 
-export const queryMovies = payload => {
-    // console.log("queryMovies: " + JSON.stringify(payload));
+export const generateMovieList = payload => {
+    console.log("generateMovieList: " + JSON.stringify(payload));
     return dispatch => {
         fetch("http://127.0.0.1:5000/generateMovieList", {
             method: "POST",

@@ -112,6 +112,24 @@ def get_genres():
     fakeData = [{"actors": actors, "directors": directors, "genres": genres, "years": years, "languages": languages}]
     return jsonify(fakeData)
 
+@app.route("/updatePassword", methods=["POST"])
+def add_to_movie_list():
+    password = request.json['password']
+    print password
+
+    # # run sql procedure to delete movie
+    # cur = cnx.cursor()
+    # cur.callproc('addToMovieList', [id])
+    # cur.close()
+
+    # userMovieList = get_user_movie_list()
+    
+    # return userMovieList
+
+    # temp = fakeData()
+
+    # return jsonify(temp)
+
 @app.route("/addToMovieList", methods=["POST"])
 def add_to_movie_list():
     id = request.json['id']
@@ -149,7 +167,7 @@ def delete_from_movie_list():
     return jsonify(temp)
 
 # query movies based on actor, director, genre or movie name
-@app.route("/queryMovies", methods=["POST"])
+@app.route("/querySingleField", methods=["POST"])
 def query_movies():
     keyword = request.json['keyword']
     # results = []
@@ -211,32 +229,41 @@ def register_user():
 # fetch movies based on the quiz result
 @app.route("/generateMovieList", methods=["POST"])
 def generate_movie_list():
-    # ["actor 1", "actor name 2"]
+    # {"actors":[{"id":2,"label":"Credit card"}],
+    # "directors":[{"id":3,"label":"directors card"}],
+    # "years":[{"id":3,"label":"2098"}],
+    # "languages":[{"id":3,"label":"fr"}],
+    # "genres":[{"id":4,"label":"genres payment"}]}
     actors = request.json['actors']
     directors = request.json['directors']
     genres = request.json['genres']
-    language = request.json['language']
-    year = request.json['year']
+    language = request.json['languages']
+    year = request.json['years']
 
+    print "actors, directors, genres, language, year"
+    print actors, directors, genres, language, year
     # select based on the variables below and return the movie list in 
     # the following format
-    cur = cnx.cursor()
-    cur.callproc('generateMovieList', [actors, directors, genres, language, year])
-    cur.close()
+    # cur = cnx.cursor()
+    # cur.callproc('generateMovieList', [actors, directors, genres, language, year])
+    # cur.close()
 
     temp = fakeData()
 
     return jsonify(temp)
 
 # endpoint for read user info
-@app.route("/loginUser", methods=["POST"])
+@app.route("/userLogin", methods=["POST"])
 def login_user():
-    # loginCred = request.json['loginCred']
-    # password = request.json['password']
+    userName = request.json['userName']
+    password = request.json['password']
     # cur = cnx.cursor()
     # cur.callproc('loginUser', [loginCred, password])
     # cur.close()
-    temp = {"userName": request.json['username'], "movieList": {"a":"abc"}}
+    userID = 1
+    movieList = fakeData()
+
+    temp = {"userInfo": {"userName": userName, "userID": userID}, "movieList": movieList}
     return jsonify(temp)
 
 # endpoint for read user info

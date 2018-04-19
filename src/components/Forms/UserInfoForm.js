@@ -1,21 +1,14 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
-class LoginForm extends Component {
+class UserInfoForm extends Component {
   state = {
-    userName: "",
     password: ""
   };
 
   constructor(props) {
     super(props);
   }
-
-  userNameChangedHandler = val => {
-    this.setState({
-        userName: val
-    });
-  };
 
   passwordChangedHandler = val => {
     this.setState({
@@ -24,13 +17,11 @@ class LoginForm extends Component {
   };
 
   formSubmitHandler = () => {
-    // if (this.state.userName.trim() === "" 
-    //     || this.state.password.trim() === "") {
-    //   return;
-    // }
+    if (this.state.password.trim() === "") {
+      return;
+    }
 
-    // this.props.loginUser({userName: this.state.userName, password: this.state.password});
-    this.props.onLogin();
+    this.props.onUpdateUserInfo(this.state.password);
   };
 
   registerHandler = () => {
@@ -40,27 +31,18 @@ class LoginForm extends Component {
   render() {
     return (
       <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="user name"
-          value={this.state.userName}
-          onChangeText={this.userNameChangedHandler}
-          style={styles.textInput}
-        />
+        <Text style={styles.textInput}>{this.props.userName}</Text>
         <TextInput
           placeholder="password"
+          secureTextEntry={true}
           value={this.state.password}
           onChangeText={this.passwordChangedHandler}
           style={styles.textInput}
         />
         <Button
           style={styles.formSubmitButton}
-          title="Login"
+          title="Update"
           onPress={this.formSubmitHandler}
-        />
-        <Button
-          style={styles.formSubmitButton}
-          title="Register"
-          onPress={this.registerHandler}
         />
       </View>
     );
@@ -89,4 +71,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginForm;
+export default UserInfoForm;

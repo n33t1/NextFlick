@@ -6,7 +6,7 @@ import RegisterForm from '../../components/Register/Register';
 import LoginScreen from '../Login/Login';
 import ActorQuizScreen from '../MovieQuiz/ActorQuiz';
 
-import { getTags } from '../../store/actions/index';
+import { getTags, setUserInfo } from '../../store/actions/index';
 
 class RegisterScreen extends Component {
     // componentWillMount() {
@@ -35,7 +35,9 @@ class RegisterScreen extends Component {
         });
     }
 
-    registerSelectedHandler = () => {
+    registerSelectedHandler = (payload) => {
+        this.props.setUserInfo(payload);
+
         this.props.navigator.push({
             screen: "movie-db.ActorQuizScreen",
             title: 'ActorQuizScreen',
@@ -58,7 +60,8 @@ class RegisterScreen extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadTags: () => dispatch(getTags())
+        loadTags: () => dispatch(getTags()),
+        setUserInfo: (payload) => dispatch(setUserInfo(payload))
     };
 };
 

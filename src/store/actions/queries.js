@@ -8,9 +8,9 @@ export const setQueryRes = searchRes => {
 };
 
 export const querySingleField = payload => {
-    console.log("queryMovies: " + JSON.stringify(payload));
+    console.log("querySingleField: " + JSON.stringify(payload));
     return dispatch => {
-        fetch("http://127.0.0.1:5000/queryMovies", {
+        fetch("http://127.0.0.1:5000/querySingleField", {
             method: "POST",
             headers: {
                 Accept: 'application/json',

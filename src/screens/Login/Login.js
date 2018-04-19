@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 
-import LoginForm from '../../components/LoginForm/LoginForm';
+import LoginForm from '../../components/Forms/LoginForm';
 
-import { getMovies } from '../../store/actions/index';
+import { userLogin } from '../../store/actions/index';
 
 import startMainTabs from '../MainTabs/startMainTabs';
 import registerScreen from '../../screens/Register/Register';
 
 class LoginScreen extends Component {
-    loginHandler = () => {
-        this.props.onLoadMovies();
+    static navigatorStyle = {
+        navBarHidden: true,
+        tabBarHidden: true
+    };
+
+    loginHandler = (payload) => {
+        this.props.onUserLogin(payload);
 
         startMainTabs();
     }
@@ -28,8 +33,6 @@ class LoginScreen extends Component {
     render () {
         return (
             <View>
-                {/* <Text>Auth Screen</Text>
-                <Button title="Login" onPress={this.loginHandler}/> */}
                 <LoginForm 
                     onLogin={this.loginHandler}
                     onRegister={this.registerHandler}
@@ -42,7 +45,7 @@ class LoginScreen extends Component {
 // export default LoginScreen;
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadMovies: () => dispatch(getMovies())
+        onUserLogin: (payload) => dispatch(userLogin(payload))
     };
 };
 

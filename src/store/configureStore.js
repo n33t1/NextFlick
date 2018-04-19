@@ -4,11 +4,13 @@ import thunk from "redux-thunk";
 import moviesReducer from './reducers/movies';
 import tagsReducer from './reducers/tags';
 import queriesReducer from './reducers/queries';
+import userReducer from './reducers/user';
 
 const rootReducer = combineReducers({
     movies: moviesReducer,
     tags: tagsReducer,
-    queries: queriesReducer
+    queries: queriesReducer,
+    user: userReducer
 });
 
 let composeEnhancers = compose;

@@ -13,6 +13,7 @@ import YearQuizScreen from './src/screens/MovieQuiz/YearQuiz';
 import LanguageQuizScreen from './src/screens/MovieQuiz/LanguageQuiz';
 import OnLoadMoviesScreen from './src/screens/MovieQuiz/OnLoadMovies';
 import AddMoviesScreen from './src/screens/AddMovie/AddMovie';
+import UserSettingsScreen from './src/screens/UserSettings/UserSettings';
 import MovieDetailSearchResScreen from './src/screens/MovieDetail/MovieDetailSearchRes';
 import configureStore from "./src/store/configureStore";
 
@@ -109,10 +110,17 @@ Navigation.registerComponent(
   Provider
 );
 
+Navigation.registerComponent(
+  "movie-db.UserSettingsScreen",
+  () => UserSettingsScreen,
+  store,
+  Provider
+);
+
 // Start a App
 Navigation.startSingleScreenApp({
   screen: {
     screen: "movie-db.LoginScreen",
-    title: "Login"
+    title: 'Login'
   }
 });

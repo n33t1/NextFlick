@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { connect } from 'react-redux';
 
 import startMainTabs from '../MainTabs/startMainTabs';
-import { queryMovies } from "../../store/actions/index";
+import { generateMovieList } from "../../store/actions/index";
 
 class GenreQuiz extends Component {
     genreSelectedHandler = movieName => {
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadMovies: (payload) => dispatch(queryMovies(payload))
+        onLoadMovies: (payload) => dispatch(generateMovieList(payload))
     };
 };
 

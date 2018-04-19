@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
 
-import startMainTabs from '../../screens/MainTabs/startMainTabs';
-import loginScreen from '../../screens/Login/Login';
-
-class RegisterForm extends Component {
+class LoginForm extends Component {
   state = {
     userName: "",
-    password: "",
-    passwordRe: ""
+    password: ""
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   userNameChangedHandler = val => {
     this.setState({
@@ -23,30 +23,21 @@ class RegisterForm extends Component {
     });
   };
 
-  confirmPasswordChangedHandler = val => {
-    this.setState({
-        passwordRe: val
-    });
-  };
-
   formSubmitHandler = () => {
     if (this.state.userName.trim() === "" 
         || this.state.password.trim() === "") {
       return;
     }
 
-    if (this.state.password !== this.state.passwordRe) {
-        return;
-    }
     let payload = {};
     payload['userName'] = this.state.userName;
     payload['password'] = this.state.password;
     
-    this.props.onRegisterSelected(payload);
+    this.props.onLogin(payload);
   };
 
-  loginHandler = () => {
-    this.props.onLoginSelected();
+  registerHandler = () => {
+    this.props.onRegister();
   };
 
   render() {
@@ -60,27 +51,20 @@ class RegisterForm extends Component {
         />
         <TextInput
           placeholder="password"
-          value={this.state.password}
           secureTextEntry={true}
+          value={this.state.password}
           onChangeText={this.passwordChangedHandler}
           style={styles.textInput}
-        />
-        <TextInput
-          placeholder="confirm password"
-          value={this.state.passwordRe}
-          secureTextEntry={true}
-          onChangeText={this.confirmPasswordChangedHandler}
-          style={styles.textInput}
-        />
-        <Button
-          style={styles.formSubmitButton}
-          title="Register"
-          onPress={this.formSubmitHandler}
         />
         <Button
           style={styles.formSubmitButton}
           title="Login"
-          onPress={this.loginHandler}
+          onPress={this.formSubmitHandler}
+        />
+        <Button
+          style={styles.formSubmitButton}
+          title="Register"
+          onPress={this.registerHandler}
         />
       </View>
     );
@@ -109,4 +93,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RegisterForm;
+export default LoginForm;
