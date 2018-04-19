@@ -37,8 +37,8 @@ export const userLogin = (payload) => {
         .then(parsedRes => {
             // we want to return user id and username here
             console.log("loginUser: " + JSON.stringify(parsedRes));
-            let userInfo = parsedRes.userInfo;
-            dispatch(setUserInfo(userInfo));
+            let userID = parsedRes.userID;
+            dispatch(setUserID(userID));
             let movieList = parsedRes.movieList;
             dispatch(setMovieList(movieList));
         });
@@ -60,7 +60,7 @@ export const setUserID = payload => {
     };
 };
 
-export const updatePassword = password => {
+export const updatePassword = payload => {
     return dispatch => {
         fetch('http://127.0.0.1:5000/updatePassword', {
             method: 'POST',
@@ -68,7 +68,7 @@ export const updatePassword = password => {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({password}),
+            body: JSON.stringify(payload),
         })
         .catch(err => {
             console.log(err);

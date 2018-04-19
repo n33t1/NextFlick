@@ -9,9 +9,127 @@ from array import array
 
 import mysql.connector
 
+tempp = [
+    {
+        "actors": [
+            {
+                "id": 192,
+                "label": "Jack Black"
+            },
+            {
+                "id": 200,
+                "label": "Bruce Willis"
+            },
+            {
+                "id": 218,
+                "label": "Martin Lawrence"
+            },
+            {
+                "id": 260,
+                "label": "Josh Hutcherson"
+            },
+            {
+                "id": 286,
+                "label": "Adam Sandler"
+            }
+        ],
+        "directors": [
+            {
+                "id": 820,
+                "label": "Bill Paxton"
+            },
+            {
+                "id": 796,
+                "label": "Cathy Malkasian"
+            },
+            {
+                "id": 300,
+                "label": "Andrzej Bartkowiak"
+            },
+            {
+                "id": 776,
+                "label": "Jodie Foster"
+            },
+            {
+                "id": 306,
+                "label": "Bobby Farrelly"
+            }
+        ],
+        "genres": [
+            {
+                "id": 2,
+                "label": "Adventure"
+            },
+            {
+                "id": 7,
+                "label": "Thriller"
+            },
+            {
+                "id": 10,
+                "label": "History"
+            },
+            {
+                "id": 17,
+                "label": "Documentary"
+            },
+            {
+                "id": 12,
+                "label": "Western"
+            }
+        ],
+        "languages": [
+            {
+                "id": 1,
+                "label": "English"
+            },
+            {
+                "id": 2,
+                "label": "French"
+            },
+            {
+                "id": 3,
+                "label": "Spanish"
+            },
+            {
+                "id": 4,
+                "label": "German"
+            },
+            {
+                "id": 5,
+                "label": "Chinese"
+            }
+        ],
+        "years": [
+            {
+                "id": 1,
+                "label": "1970's"
+            },
+            {
+                "id": 2,
+                "label": "1980's"
+            },
+            {
+                "id": 3,
+                "label": "1990's"
+            },
+            {
+                "id": 4,
+                "label": "2000's"
+            },
+            {
+                "id": 5,
+                "label": "2010+"
+            }
+        ]
+    }
+]
 
-cnx = pymysql.connect(host='localhost', user='root', password='',
+cnx = pymysql.connect(host='localhost', user='root', password='root',
              db='Movies',charset='utf8mb4',cursorclass=pymysql.cursors.DictCursor )
+
+languageHash = {"en": "English", "ja": "Japanese", "fr": "French", "zh": "Albanian", "es": "Spanish", "de": "German", "hi": "Hindi", "ru": "Russian", "ko": "Korean", "te": "Telugu", "cn": "Chinese", "it": "Italian"}
+reverseLangHash = {"English": "en", "Japanese": "ja", "French": "fr", "Albanian": "zh", "Spanish": "es", "German": "de", "Hindi": "hi", "Russian": "ru", "Korean": "ko", "Telugu": "te", "Chinese": "cn", "Italian": "it"}
+timeHash = {"1970's": [1970, 1979], "1980's": [1980, 1989], "1990's": [1990, 1999], "2000's": [2000, 2009], "2010+": [2010, 2019]}
 
 def fakeData():
     a = {"key": 1, "attributes" : {"movieName": "movie name 1", "actors":["ab", "abb", "bab","bba"], "director": "abc", "genre": ["action", "adventure"], "language": "en", "year": 1996}}
@@ -20,43 +138,56 @@ def fakeData():
     return temp
 
 def fetch_by_movie_id(movie_id):
+
     cur = cnx.cursor()
     # string
-    cur.callproc('getMovieName', [movie_id])
+    cur.callproc('get_movie_name', [movie_id])
     movieName = cur.fetchall()
     cur.close()
 
     cur = cnx.cursor()
     # list
-    cur.callproc('getActors', [movie_id])
-    actors = cur.fetchall()
+    cur.callproc('get_actors', [movie_id])
+    temp = cur.fetchall()
+    actors = []
+    for a in temp:
+        aName = a['ActorName']
+        if aName[-1:] == '\r':
+            aName = aName[:-1]
+        actors.append(aName)
     cur.close()
 
     cur = cnx.cursor()
     # string
-    cur.callproc('getDirector', [movie_id])
-    director = cur.fetchall()
+    cur.callproc('get_director', [movie_id])
+    temp = cur.fetchall()
+    director = temp[0]['DirectorName']
+    if director[-1:] == '\r':
+            director = director[:-1]
     cur.close()
 
     cur = cnx.cursor()
     # list/array
-    cur.callproc('getGenres', [movie_id])
-    genre = cur.fetchall()
+    cur.callproc('get_genres', [movie_id])
+    temp = cur.fetchall()
+    genres = []
+    for g in temp:
+        genres.append(g['GenreTitle'])
     cur.close()
 
     cur = cnx.cursor()
     # string
-    cur.callproc('getLanguage', [movie_id])
+    cur.callproc('get_language', [movie_id])
     language = cur.fetchall()
     cur.close()
 
     cur = cnx.cursor()
-    cur.callproc('getYear', [movie_id])
+    cur.callproc('get_year', [movie_id])
     # int/ string
     year = cur.fetchall()
     cur.close()
 
-    currMovie = {"key": movie_id, "attributes": {"movieName":movieName, "actors": actors, "director": director, "genre": genres, "language": language, "year": year}}
+    currMovie = {"key": movie_id, "attributes": {"movieName":movieName[0]['MovieName'], "actors": actors, "director": director, "genre": genres, "language": languageHash[language[0]['MovieLang']], "year": year[0]['MovieYear']}}
 
     return currMovie
 
@@ -66,69 +197,51 @@ app = Flask(__name__)
 def main():
     return "Welcome!"
 
-@app.route("/genres.json", methods=["GET"])
-def get_genres():
-    # cur = cnx.cursor()
-    # stmt_select = "select mm.MovieName from Movie as mm order by mm.MovieName"
+@app.route("/questions.json", methods=["GET"])
+def get_questions():
+    def helper(A):
+        res = []
+        for item in A:
+            temp = list(item.values())
+            _id, label = temp
+            if label[-1:] == '\r':
+                label = label[:-1]
+            res.append({"id": _id, "label": label})
+        return res
 
-    # cur.execute(stmt_select)
-    # temp = cur.fetchall()
-    # cur.close()
-    actors = [
-        { "id": 1, "label": 'Money' },
-        { "id": 2, "label": 'Credit card' },
-        { "id": 3, "label": 'Debit card' },
-        { "id": 4, "label": 'Online payment' },
-        { "id": 5, "label": 'Bitcoin' }
-    ]
-    directors = [
-        { "id": 1, "label": 'directors1' },
-        { "id": 2, "label": 'directors card' },
-        { "id": 3, "label": 'directors card' },
-        { "id": 4, "label": 'directors payment' },
-        { "id": 5, "label": 'directors23' }
-    ]
-    genres = [
-        { "id": 1, "label": 'genres' },
-        { "id": 2, "label": 'genres card' },
-        { "id": 3, "label": 'genres card' },
-        { "id": 4, "label": 'genres payment' },
-        { "id": 5, "label": 'genres Bitcoin' }
-    ]
-    years = [
-        { "id": 1, "label": '1908' },
-        { "id": 2, "label": '1923' },
-        { "id": 3, "label": '2098' },
-        { "id": 4, "label": '1092' },
-        { "id": 5, "label": '2015' }
-    ]
-    languages = [
-        { "id": 1, "label": 'en' },
-        { "id": 2, "label": 'ch' },
-        { "id": 3, "label": 'fr' },
-        { "id": 4, "label": 'bla' },
-        { "id": 5, "label": 'blabla' }
-    ]
-    fakeData = [{"actors": actors, "directors": directors, "genres": genres, "years": years, "languages": languages}]
-    return jsonify(fakeData)
+    cur = cnx.cursor()
+    cur.callproc('get_random_actors', [])
+    actors = helper(cur.fetchall())
+    cur.close()
 
-@app.route("/updatePassword", methods=["POST"])
-def add_to_movie_list():
-    password = request.json['password']
-    print password
+    cur = cnx.cursor()
+    cur.callproc('get_random_directors', [])
+    directors = helper(cur.fetchall())
+    cur.close()
 
-    # # run sql procedure to delete movie
-    # cur = cnx.cursor()
-    # cur.callproc('addToMovieList', [id])
-    # cur.close()
-
-    # userMovieList = get_user_movie_list()
+    cur = cnx.cursor()
+    cur.callproc('get_random_genres', [])
+    genres = helper(cur.fetchall())
+    cur.close()
     
-    # return userMovieList
+    years = [
+        { "id": 1, "label": "1970's" },
+        { "id": 2, "label": "1980's" },
+        { "id": 3, "label": "1990's" },
+        { "id": 4, "label": "2000's" },
+        { "id": 5, "label": "2010+" }
+    ]
 
-    # temp = fakeData()
+    languages = [
+        { "id": 1, "label": "English" },
+        { "id": 2, "label": "French" },
+        { "id": 3, "label": "Spanish" },
+        { "id": 4, "label": "German" },
+        { "id": 5, "label": "Chinese" }
+    ]
 
-    # return jsonify(temp)
+    res = [{"actors": actors, "directors": directors, "genres": genres, "years": years, "languages": languages}]
+    return jsonify(res)
 
 @app.route("/addToMovieList", methods=["POST"])
 def add_to_movie_list():
@@ -167,7 +280,7 @@ def delete_from_movie_list():
     return jsonify(temp)
 
 # query movies based on actor, director, genre or movie name
-@app.route("/querySingleField", methods=["POST"])
+@app.route("/queryMovies", methods=["POST"])
 def query_movies():
     keyword = request.json['keyword']
     # results = []
@@ -181,9 +294,10 @@ def query_movies():
     #     # retrieve movie and format it
     #     results.append(fetch_by_movie_id(movieID))
     # cur.close()
+    temp = fetch_by_movie_id(11902)
     # return jsonify(results)
 
-    temp = fakeData()
+    # temp = fakeData()
 
     return jsonify(temp)
 
@@ -212,58 +326,130 @@ def get_user_movie_list():
 
     return jsonify(temp)
 
-# endpoint for adding new user
-@app.route("/registerUser", methods=["POST"])
-def register_user():
-    print "request.json", request.json
-    username = request.json['userName']
-    email = request.json['email']
-    password = request.json['password']
-    print username, email, password
-    cur = cnx.cursor()
-    cur.callproc('registerUser', [username, email, password])
-    cur.close()
-    # print "register_user"
-    return True
 
 # fetch movies based on the quiz result
-@app.route("/generateMovieList", methods=["POST"])
-def generate_movie_list():
-    # {"actors":[{"id":2,"label":"Credit card"}],
-    # "directors":[{"id":3,"label":"directors card"}],
-    # "years":[{"id":3,"label":"2098"}],
-    # "languages":[{"id":3,"label":"fr"}],
-    # "genres":[{"id":4,"label":"genres payment"}]}
-    actors = request.json['actors']
-    directors = request.json['directors']
-    genres = request.json['genres']
-    language = request.json['languages']
-    year = request.json['years']
+def generate_movie_list(answers, user_id):
+    filters = ['filter_actor_based', 'filter_directors', 'filter_genres', 'filter_language', 'filter_year']
 
-    print "actors, directors, genres, language, year"
-    print actors, directors, genres, language, year
-    # select based on the variables below and return the movie list in 
-    # the following format
-    # cur = cnx.cursor()
-    # cur.callproc('generateMovieList', [actors, directors, genres, language, year])
-    # cur.close()
+    movieIDSet = []
 
-    temp = fakeData()
+    def parse_user_id(A, filter_i):
+        for item in A:
+            # { "id": 1, "label": 'Money' },
+            if filter_i == 'filter_language':
+                keyword = reverseLangHash[item['label']]
+                cur = cnx.cursor()
+                cur.callproc(filter_i, [keyword])
+                movie_id = cur.fetchall()
+                cur.close()
+            elif filter_i == 'filter_year':
+                keyword = timeHash[item['label']]
+                cur = cnx.cursor()
+                cur.callproc(filter_i, [keyword[0], keyword[1]])
+                movie_id = cur.fetchall()
+                cur.close()
+            else:
+                keyword = int(item['id'])
+                cur = cnx.cursor()
+                cur.callproc(filter_i, [keyword])
+                movie_id = cur.fetchall()
+                cur.close()
 
-    return jsonify(temp)
+            
+            b = movie_id[0]
+            d = int(b['MovieID'])
+            if d not in movieIDSet:
+                movieIDSet.append(d)
+                cur = cnx.cursor()
+                print type(user_id), type(d)
+                cur.callproc('add_user_movie', [user_id, d])
+                cnx.commit()
+                cur.close()
+        # return movie_id['MovieID']
+
+    for i in range(len(filters)):
+        # adding new movie ids to user movie list
+        parse_user_id(answers[i], filters[i])
 
 # endpoint for read user info
 @app.route("/userLogin", methods=["POST"])
 def login_user():
     userName = request.json['userName']
     password = request.json['password']
-    # cur = cnx.cursor()
-    # cur.callproc('loginUser', [loginCred, password])
-    # cur.close()
-    userID = 1
-    movieList = fakeData()
 
-    temp = {"userInfo": {"userName": userName, "userID": userID}, "movieList": movieList}
+    cur = cnx.cursor()
+    cur.callproc('auth_user', [userName, password])
+    temp = cur.fetchall()    
+    if temp is None:
+        return json.dumps({ "error": "error" }), 500
+    userID = int(temp[0]['UserID'])
+    print "login_user", userID
+    cur.close()
+
+    cur = cnx.cursor()
+    cur.callproc('get_watched_movies', [userID])
+    movieIDList = cur.fetchall()
+    cur.close()
+
+    res = []
+    for movie_id in movieIDList:
+        temp = fetch_by_movie_id(movie_id['MovieID'])
+        res.append(temp)
+
+    result = {}
+    result['movieList'] = res
+    result['userID'] = userID
+
+    return jsonify(result)
+
+#endpoint for registering a user
+@app.route("/registerUser", methods=["POST"])
+def register_user():
+    userName = request.json['userName']
+    password = request.json['password']
+    # QuizRes = request.json['QuizRes']
+    QuizRes = tempp[0]
+    answers = [QuizRes['actors'], QuizRes['directors'], QuizRes['genres'], QuizRes['languages'], QuizRes['years']]
+
+    cur = cnx.cursor()
+    cur.callproc('add_user', [userName, password])
+    temp = cur.fetchall()
+    userID = int(temp[0]['your_id'])
+    cnx.commit()
+    cur.close()
+
+    generate_movie_list(answers, userID)
+
+    cur = cnx.cursor()
+    cur.callproc('get_watched_movies', [userID])
+    movieIDList = cur.fetchall()
+    cur.close()
+
+    res = []
+    for movie_id in movieIDList:
+        temp = fetch_by_movie_id(movie_id['MovieID'])
+        res.append(temp)
+
+    result = {}
+    result['movieList'] = res
+    result['userID'] = userID
+
+    return jsonify(result)
+
+
+@app.route("/updatePassword", methods=["POST"])
+def update_password():
+    userID = request.json['userID']
+    password = request.json['password']
+    userID = int(userID)
+    print userID, password
+
+    cur = cnx.cursor()
+    cur.callproc('update_password', [password, userID])
+    cnx.commit()
+    cur.close()    
+    temp = {}
+    temp['data'] = 'data'
     return jsonify(temp)
 
 # endpoint for read user info

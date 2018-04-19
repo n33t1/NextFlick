@@ -10,7 +10,12 @@ import { updatePassword } from '../../store/actions/index';
 
 class UserSettings extends Component {
     updateUserHandler = (password) => {
-        this.props.onSetUserInfo(password);
+
+        let payload = {}
+        payload['userID'] = this.props.userID;
+        payload['password'] = password;
+        console.log("updateUserHandler" + JSON.stringify(payload));
+        this.props.onUpdatePassword(payload);
 
         this.props.navigator.resetTo({
             screen: "movie-db.LoginScreen",
@@ -48,13 +53,14 @@ class UserSettings extends Component {
 
 const mapStateToProps = state => {
     return {
-        userName: state.user.userName
+        userName: state.user.userName,
+        userID: state.user.userID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSetUserInfo: password => dispatch(updatePassword(password))
+        onUpdatePassword: payload => dispatch(updatePassword(payload))
     };
   };  
 

@@ -111,10 +111,6 @@ export const setMovieList = movies => {
 }
 
 export const deleteMovie = key => {
-    // return {
-    //     type: ADD_MOVIE,
-    //     key: key
-    // };
     return dispatch => {
         fetch("http://127.0.0.1:5000/deleteFromMovieList", {
             method: "POST",

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import LoginForm from '../../components/Forms/LoginForm';
 
-import { userLogin } from '../../store/actions/index';
+import { userLogin, setUserInfo } from '../../store/actions/index';
 
 import startMainTabs from '../MainTabs/startMainTabs';
 import registerScreen from '../../screens/Register/Register';
@@ -16,6 +16,7 @@ class LoginScreen extends Component {
     };
 
     loginHandler = (payload) => {
+        this.props.setUserInfo(payload);
         this.props.onUserLogin(payload);
 
         startMainTabs();
@@ -45,7 +46,8 @@ class LoginScreen extends Component {
 // export default LoginScreen;
 const mapDispatchToProps = dispatch => {
     return {
-        onUserLogin: (payload) => dispatch(userLogin(payload))
+        onUserLogin: (payload) => dispatch(userLogin(payload)),
+        setUserInfo: (payload) => dispatch(setUserInfo(payload))
     };
 };
 
