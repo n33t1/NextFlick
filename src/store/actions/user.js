@@ -1,4 +1,4 @@
-import { SET_USER_INFO  } from './actionTypes';
+import { SET_USER_INFO, SET_USER_ID  } from './actionTypes';
 import { setMovieList } from './movies';
 
 // export const userLogin = (payload) => {
@@ -48,8 +48,15 @@ export const userLogin = (payload) => {
 export const setUserInfo = payload => {
     return {
         type: SET_USER_INFO,
-        userID: payload.userID,
-        userName: payload.userName
+        userName: payload.userName,
+        password: payload.password
+    };
+};
+
+export const setUserID = payload => {
+    return {
+        type: SET_USER_ID,
+        userID: payload.userID
     };
 };
 
@@ -72,7 +79,7 @@ export const updatePassword = password => {
 
 export const userRegister = (payload) => {
     return dispatch => {
-        fetch('http://127.0.0.1:5000/userRegister', {
+        fetch('http://127.0.0.1:5000/registerUser', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -88,8 +95,8 @@ export const userRegister = (payload) => {
         .then(parsedRes => {
             // we want to return user id and username here
             console.log("userRegister: " + JSON.stringify(parsedRes));
-            let userInfo = parsedRes.userInfo;
-            dispatch(setUserInfo(userInfo));
+            let userID = parsedRes.userID;
+            dispatch(setUserID(userID));
             let movieList = parsedRes.movieList;
             dispatch(setMovieList(movieList));
         });

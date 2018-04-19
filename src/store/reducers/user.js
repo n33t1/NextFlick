@@ -1,8 +1,9 @@
-import { SET_USER_INFO } from "../actions/actionTypes";
+import { SET_USER_INFO, SET_USER_ID } from "../actions/actionTypes";
 
 const initialState = {
     userName: "",
-    userId: ""
+    userId: "",
+    password: ""
   };
 
 const reducer = (state = initialState, action) => {
@@ -10,8 +11,13 @@ const reducer = (state = initialState, action) => {
       case SET_USER_INFO:
         return {
           ...state,
-          userID: action.userID,
-          userName: action.userName
+          userName: action.userName,
+          password: action.password
+        };
+      case SET_USER_ID:
+        return {
+          ...state,
+          userID: action.userID
         };
       default:
         return state;

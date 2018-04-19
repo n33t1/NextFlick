@@ -10,7 +10,7 @@ export const selectTags = (optionType, values) => {
 
 export const getTags = () => {
     return dispatch => {
-        fetch("http://127.0.0.1:5000/genres.json")
+        fetch("http://127.0.0.1:5000/questions.json")
         .catch(err => {
             alert("Something went wrong, sorry :/");
             console.log(err);

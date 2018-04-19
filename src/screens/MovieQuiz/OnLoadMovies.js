@@ -3,11 +3,16 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { connect } from 'react-redux';
 
 import startMainTabs from '../MainTabs/startMainTabs';
-import { generateMovieList } from "../../store/actions/index";
+import { userRegister } from "../../store/actions/index";
 
 class GenreQuiz extends Component {
-    genreSelectedHandler = movieName => {
-        this.props.onLoadMovies(this.props.res);
+    genreSelectedHandler = () => {
+        console.log("state.userName" + this.props.userName);
+        console.log("state.password" + this.props.password);
+        let payload = {}
+        payload['userName'] = this.props.userName;
+        payload['password'] = this.props.password;
+        this.props.onUserRegister(payload);
         // console.log("res: " + JSON.stringify(movieList));
         startMainTabs();
     }
@@ -39,13 +44,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        res: state.tags.res
+        res: state.tags.res,
+        userName: state.user.userName,
+        password: state.user.password
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadMovies: (payload) => dispatch(generateMovieList(payload))
+        onUserRegister: (payload) => dispatch(userRegister(payload))
     };
 };
 

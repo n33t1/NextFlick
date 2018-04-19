@@ -16,3 +16,4 @@ export const SET_QUERY_RES = 'SET_QUERY_RES';
 export const SET_MOVIE_LIST = 'SET_MOVIE_LIST';
 export const CREATE_MOVIE = 'CREATE_MOVIE';
 export const SET_USER_INFO = 'SET_USER_INFO';
+export const SET_USER_ID = 'SET_USER_ID';
