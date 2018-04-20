@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import LoginForm from '../../components/Forms/LoginForm';
@@ -35,15 +35,29 @@ class LoginScreen extends Component {
     render () {
         return (
             <View>
-                <LoginForm 
-                    onLogin={this.loginHandler}
-                    onRegister={this.registerHandler}
-                />
+                <ImageBackground 
+                    source={require('../../assets/Logo.png')}
+                    style={styles.backgroundImage}
+                >
+                    <LoginForm 
+                        onLogin={this.loginHandler}
+                        onRegister={this.registerHandler}
+                    />
+                </ImageBackground>
             </View>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        alignSelf: 'stretch',
+        width: null,
+    }
+  });
+
+  
 // export default LoginScreen;
 const mapDispatchToProps = dispatch => {
     return {

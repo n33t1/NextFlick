@@ -7,7 +7,7 @@ import { userRegister, getMovieList } from "../../store/actions/index";
 
 class GenreQuiz extends Component {
     genreSelectedHandler = () => {
-        if (this.props.userID === null) {
+        if (this.props.userID === "") {
             console.log("state.userName" + this.props.userName);
             console.log("state.password" + this.props.password);
             let payload = {}
@@ -16,7 +16,9 @@ class GenreQuiz extends Component {
             payload['QuizRes'] = this.props.res;
             this.props.onUserRegister(payload);
         } else {
-            let payload = this.props.res;
+            let payload = {}
+            payload['userID'] = this.props.userID;
+            payload['QuizRes'] = this.props.res;
             this.props.getMovieList(payload);
         }
 
