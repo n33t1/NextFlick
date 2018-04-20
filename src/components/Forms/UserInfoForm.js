@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: "50%"
+    paddingTop: "100%"
   },
   textInput: {
     width: "70%",

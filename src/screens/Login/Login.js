@@ -36,7 +36,7 @@ class LoginScreen extends Component {
         return (
             <View>
                 <ImageBackground 
-                    source={require('../../assets/Logo.png')}
+                    source={{uri: 'https://raw.githubusercontent.com/n33t1/movie/master/src/assets/Logo.png'}}
                     style={styles.backgroundImage}
                 >
                     <LoginForm 
@@ -51,9 +51,9 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
     backgroundImage: {
-        flex: 1,
-        alignSelf: 'stretch',
-        width: null,
+        width: "100%",
+        height: '100%',
+        opacity:.9
     }
   });
 

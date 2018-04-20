@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Image } from "react-native";
 
 class LoginForm extends Component {
   state = {
@@ -43,6 +43,10 @@ class LoginForm extends Component {
   render() {
     return (
       <View style={styles.inputContainer}>
+        {/* <Image
+          style={{width: 50, height: 50}}
+          source={{uri: 'https://raw.githubusercontent.com/n33t1/movie/master/AppIcon.png'}}
+        /> */}
         <TextInput
           placeholder="user name"
           value={this.state.userName}
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: "50%"
+    paddingTop: "100%"
   },
   textInput: {
     width: "70%",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ImageBackground, StyleSheet  } from 'react-native';
 import { connect } from 'react-redux';
 
 import UserInfoForm from '../../components/Forms/UserInfoForm';
@@ -40,16 +40,29 @@ class UserSettings extends Component {
             <View>
                 {/* <Text>Auth Screen</Text>
                 <Button title="Login" onPress={this.loginHandler}/> */}
-                <UserInfoForm 
-                    onUpdateUserInfo={this.updateUserHandler}
-                    onRegister={this.cancelAccountHandler}
-                    userName={this.props.userName}
-                    userID={this.props.userID}
-                />
+                <ImageBackground 
+                    source={{uri: 'https://raw.githubusercontent.com/n33t1/movie/master/src/assets/Logo.png'}}
+                    style={styles.backgroundImage}
+                >
+                    <UserInfoForm 
+                        onUpdateUserInfo={this.updateUserHandler}
+                        onRegister={this.cancelAccountHandler}
+                        userName={this.props.userName}
+                        userID={this.props.userID}
+                    />
+                </ImageBackground>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    backgroundImage: {
+        width: "100%",
+        height: '100%',
+        opacity:.9
+    }
+  });
 
 const mapStateToProps = state => {
     return {

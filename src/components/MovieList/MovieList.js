@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: "40%"
+    paddingTop: "100%"
   },
   button: {
     fontSize: 20,
-    paddingBottom: "20%"
+    paddingBottom: "50%"
   },
   text: {
     fontSize: 20,

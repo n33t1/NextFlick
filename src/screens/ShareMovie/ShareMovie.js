@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -57,16 +57,29 @@ class ShareMovieScreen extends Component {
         return (
             <View>
                 {/* <SearchBar onSearchTriggered={this.onSearchTriggeredHandler}/> */}
-                <MovieList
-                    movies={this.state.data}
-                    onItemSelected={this.itemSelectedHandler}
-                    onAddNewMovie={this.onAddNewMovieHandler}
-                    onTakeQuiz={this.onTakeQuizHandler}
-                />
+                <ImageBackground 
+                    source={{uri: 'https://raw.githubusercontent.com/n33t1/movie/master/src/assets/Logo.png'}}
+                    style={styles.backgroundImage}
+                >
+                    <MovieList
+                        movies={this.state.data}
+                        onItemSelected={this.itemSelectedHandler}
+                        onAddNewMovie={this.onAddNewMovieHandler}
+                        onTakeQuiz={this.onTakeQuizHandler}
+                    />
+                </ImageBackground>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    backgroundImage: {
+        width: "100%",
+        height: '100%',
+        opacity:.9
+    }
+  });
 
 const mapStateToProps = state => {
     return {

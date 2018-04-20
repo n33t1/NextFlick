@@ -17,8 +17,8 @@ const startTabs = () => {
                 },
                 {
                     screen: "movie-db.ShareMovieScreen",
-                    label: "Search",
-                    title: "Search",
+                    label: "Dashboard",
+                    title: "Dashboard",
                     icon: sources[1]
                 },
                 {
